@@ -1,5 +1,5 @@
-import { Card, Image, Text, Group, Badge, createStyles, Center, Button, rem } from '@mantine/core';
-import { Grid, Container, Loader, Skeleton } from '@mantine/core';
+import { Card, Text, Group, Badge, createStyles, Button, rem } from '@mantine/core';
+import { Grid, Container, Skeleton } from '@mantine/core';
 
 import { useEffect, useState } from 'react'
 import axios from '../node_modules/axios/index';
@@ -44,13 +44,19 @@ const mockdata = [
     { label: '100 km/h in 4 seconds', icon: "" },
     { label: 'Automatic gearbox', icon: "" }
 ];
+interface Services {
+    title: string;
+    description: string;
+    price: "string",
+    duration: string,
+}
 
 function FeaturesCard() {
 
-    const [services, setServices] = useState([]);
+    const [services, setServices] = useState<Services[]>([]);
 
     const fetchData = () => (
-        axios.get("https://rubapi.vercel.app/api/services").then((res) => { setServices(res.data) })
+        axios.get<Services[]>("https://rubapi.vercel.app/api/services").then((res) => { setServices(res.data) })
     )
 
     useEffect(() => {
@@ -61,18 +67,12 @@ function FeaturesCard() {
     console.log(services);
 
     const { classes } = useStyles();
-    const features = mockdata.map((feature) => (
-        <Center key={feature.label}>
-            {/* <feature.icon size="1.05rem" className={classes.icon} stroke={1.5} /> */}
-            <Text size="xs">{feature.label}</Text>
-        </Center>
-    ));
 
     if (services.length == 0)
         return <>
             <Grid mt={40} p={60}>
                 {mockdata.map((item, index) => (
-                    <Grid.Col xs={4} key={index}>
+                    <Grid.Col xs={4} key={item.label + index}>
                         <Skeleton height={15} mb={12} width="60%" radius="xl" />
                         <Skeleton height={8} mt={30} radius="xl" />
                         <Skeleton height={8} mt={6} radius="xl" />

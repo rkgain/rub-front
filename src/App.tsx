@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { MantineProvider, Text } from '@mantine/core';
+import { MantineProvider } from '@mantine/core';
 
 import './App.css'
 import FeaturesCard from './Cards';
